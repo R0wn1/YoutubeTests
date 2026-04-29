@@ -15,7 +15,10 @@ i = 0
 
 while True:
     # Massive chunk per frame (tweak higher if your PC survives)
-    block = "<br>".join([f"you are a furry {i+j}" for j in range(8000)])
+    block = "<br>".join([f"gordon is a furry {i+j}" for j in range(8000)])
+    block = "<br>".join([f"gordon is a furry {i+j}" for j in range(8000)])
+    block = "<br>".join([f"gordon is a furry {i+j}" for j in range(8000)])
+    block = "<br>".join([f"gordon is a furry {i+j}" for j in range(8000)])
 
     container.markdown(block, unsafe_allow_html=True)
 
