@@ -2,26 +2,28 @@ import streamlit as st
 
 st.set_page_config(layout="wide")
 
-st.title("💀 Browser Destroyer")
+# Kill margins so it fills screen
+st.markdown("""
+<style>
+body { margin: 0; padding: 0; overflow: hidden; }
+</style>
+""", unsafe_allow_html=True)
 
 container = st.empty()
 
 i = 0
 
 while True:
-    # Build a HUGE chunk of text each loop
-    text = "\n".join([f"you are a furry {i+j}" for j in range(2000)])
-    container.markdown(text)
+    # Massive chunk per frame (tweak higher if your PC survives)
+    block = "<br>".join([f"you are a furry {i+j}" for j in range(8000)])
 
-    # Force scroll to bottom
-    st.markdown(
-        """
-        <script>
-        window.scrollTo(0, document.body.scrollHeight);
-        </script>
-        """,
-        unsafe_allow_html=True
-    )
+    container.markdown(block, unsafe_allow_html=True)
 
-    i += 2000
-    
+    # Force scroll down every update
+    st.markdown("""
+    <script>
+    window.scrollTo(0, document.body.scrollHeight);
+    </script>
+    """, unsafe_allow_html=True)
+
+    i += 8000
